@@ -2,6 +2,8 @@
 
 This reproduces an exception during `KILL QUERY` for a query reading through the `postgresql(...)` table function.
 
+Fix in https://github.com/ClickHouse/ClickHouse/pull/105949
+
 The setup runs PostgreSQL on `127.0.0.1:15431` and a small TCP proxy on `127.0.0.1:15432` using Docker Compose with host networking. The long ClickHouse query connects through the proxy. The repro then closes the proxy listener while keeping the active PostgreSQL connection open, so ClickHouse cannot open PostgreSQL's separate cancel connection when `KILL QUERY` calls `pqxx::connection::cancel_query`.
 
 ## Requirements
