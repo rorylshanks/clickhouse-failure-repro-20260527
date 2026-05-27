@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    network_mode: host
+    command: ["postgres", "-p", "15431"]
+    environment:
+      POSTGRES_DB: postgres_database
+      POSTGRES_PASSWORD: clickhouse
+      POSTGRES_USER: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -p 15431 -U postgres -d postgres_database"]
+      interval: 1s
+      timeout: 5s
+      retries: 30
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+  pgproxy:
+    image: python:3.12-alpine
+    network_mode: host
+    command:
+      - python
+      - /work/tcp_proxy.py
+      - --listen-host
+      - 127.0.0.1
+      - --listen-port
+      - "15432"
+      - --target-host
+      - 127.0.0.1
+      - --target-port
+      - "15431"
+      - --control-port
+      - "15433"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./tcp_proxy.py:/work/tcp_proxy.py:ro

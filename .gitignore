@@ -1,0 +1,6 @@
+ch_data/
+ch_logs/
+*.err
+*.log
+*.out
+*.pid

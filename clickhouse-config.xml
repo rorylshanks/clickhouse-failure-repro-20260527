@@ -1,0 +1,24 @@
+<clickhouse>
+    <logger>
+        <level>test</level>
+        <console>false</console>
+    </logger>
+
+    <listen_host>127.0.0.1</listen_host>
+    <tcp_port>19000</tcp_port>
+    <http_port>18123</http_port>
+    <interserver_http_port>19009</interserver_http_port>
+
+    <path>ch_data/</path>
+    <tmp_path>ch_data/tmp/</tmp_path>
+    <user_files_path>ch_data/user_files/</user_files_path>
+    <format_schema_path>ch_data/format_schemas/</format_schema_path>
+    <access_control_path>ch_data/access/</access_control_path>
+
+    <users_config>users.xml</users_config>
+    <default_profile>default</default_profile>
+    <default_database>default</default_database>
+
+    <mark_cache_size>536870912</mark_cache_size>
+    <uncompressed_cache_size>536870912</uncompressed_cache_size>
+</clickhouse>
